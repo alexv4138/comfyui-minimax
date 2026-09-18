@@ -51,6 +51,38 @@ if [ -z "$ok" ]; then
     fi
 fi
 
+# The Eros I2V model is a CivitAI download. Its registry stays token-free in
+# Git; inject the pod's private token only into this ephemeral checkout before
+# the shared provisioner writes its manifest. CIVITAI_TOKEN is the canonical
+# RunPod variable; the legacy lowercase spelling remains accepted.
+EROS_CIVITAI_TOKEN="${CIVITAI_TOKEN:-${civitai_token:-}}"
+if [ -n "$EROS_CIVITAI_TOKEN" ]; then
+    EROS_CIVITAI_TOKEN="$EROS_CIVITAI_TOKEN" python3 - "$TEMPLATE_DIR/src/models_registry.json" <<'PY'
+import json
+import os
+import sys
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+
+path = sys.argv[1]
+with open(path) as f:
+    registry = json.load(f)
+entry = registry.get("h3ErosMax_beta5_3185154.safetensors")
+if entry and entry.get("url"):
+    parts = urlsplit(entry["url"])
+    query = dict(parse_qsl(parts.query, keep_blank_values=True))
+    query["token"] = os.environ["EROS_CIVITAI_TOKEN"]
+    entry["url"] = urlunsplit((parts.scheme, parts.netloc, parts.path,
+                                urlencode(query), parts.fragment))
+    with open(path, "w") as f:
+        json.dump(registry, f, indent=2)
+        f.write("\n")
+PY
+    unset EROS_CIVITAI_TOKEN
+    echo "🔐 CivitAI token configured for Eros I2V download."
+else
+    echo "⚠️  CIVITAI_TOKEN is unset; Eros I2V download may be denied by CivitAI."
+fi
+
 # The runtime commit this template boots against, pinned in pins.json
 # (CONTRACTS.md section 6). Unreadable pins fall back to the runtime's main
 # branch, loudly: an unpinned runtime is better than a dead pod.
