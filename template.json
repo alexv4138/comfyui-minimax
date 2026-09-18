@@ -4,14 +4,15 @@
   "provisioning_mode": "walk",
   "flags": {
     "download_minimax_h3": {
-      "folders": [
-        "MiniMax H3"
-      ],
+      "folders": [],
       "extra_models": [
         "minimax_h3_fl2v_turbo_4step_v1.2_768p_comfyui_bf16.safetensors",
         "minimax_h3_fl2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors",
-        "minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors",
-        "minimax_h3_latent_upscaler_3d_conv_v1_fp16.safetensors"
+        "minimax_h3_ref2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors"
+      ],
+      "workflows": [
+        "MiniMax H3/MiniMax - I2V - Auto Prompt.json",
+        "MiniMax H3/MiniMax - I2V - Custom Prompt.json"
       ]
     },
     "download_viggle_animate": {
@@ -52,6 +53,10 @@
         "false": {
           "fl2va": "minimax_h3_fl2va_bf16.safetensors",
           "ref2va": "minimax_h3_ref2va_bf16.safetensors",
+          "text_encoder": "qwen3vl_32b_minimax_h3_int8_convrot.safetensors"
+        },
+        "eros_i2v_int8": {
+          "fl2va": "h3ErosMax_beta5_3185154.safetensors",
           "text_encoder": "qwen3vl_32b_minimax_h3_int8_convrot.safetensors"
         }
       }
