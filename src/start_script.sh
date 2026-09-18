@@ -20,8 +20,8 @@
 # shared start.sh; it is not duplicated here.
 
 TEMPLATE_DIR=/comfyui-minimax
-TEMPLATE_URL=https://github.com/Hearmeman24/comfyui-minimax.git
-TEMPLATE_BRANCH=master    # minimax's default branch is master, not main
+TEMPLATE_URL=https://github.com/alexv4138/comfyui-minimax.git
+TEMPLATE_BRANCH=codex/h3-eros-i2v-60gb    # minimax's default branch is master, not main
 RUNTIME_DIR=/comfyui-runtime
 RUNTIME_URL=https://github.com/Hearmeman24/comfyui-runtime.git
 
@@ -97,3 +97,4 @@ if [ -z "$ok" ]; then
 fi
 
 exec bash /comfyui-runtime/src/start.sh /comfyui-minimax
+

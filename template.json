@@ -30,7 +30,7 @@
   "swap_groups": [
     {
       "env": "minimax_quant",
-      "default": "int8",
+      "default": "eros_i2v_int8",
       "flags": [
         "download_minimax_h3"
       ],
